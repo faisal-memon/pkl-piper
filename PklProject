@@ -1,0 +1,18 @@
+amends "pkl:Project"
+
+dependencies {
+  ["docker"] {
+    uri = "package://github.com/faisal-memon/pkl-docker/releases/download/v0.0.3/pkl-docker@0.0.3"
+  }
+}
+
+package {
+  name = "pkl-piper"
+  license = "MIT"
+  version = read?("env:PKG_VERSION") ?? "0.0.1"
+  baseUri = "package://github.com/faisal-memon/pkl-piper/releases/download/v\(version)/pkl-piper"
+  packageZipUrl = "https://github.com/faisal-memon/pkl-piper/releases/download/v\(version)/pkl-piper@\(version).zip"
+  sourceCode = "https://github.com/faisal-memon/pkl-piper"
+  sourceCodeUrlScheme = "\(sourceCode)/blob/v\(version)%{path}#L%{line}"
+  exclude { "out/**"; "dist/**"; "Makefile" }
+}
