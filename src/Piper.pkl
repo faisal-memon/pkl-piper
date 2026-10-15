@@ -46,8 +46,8 @@ class DockerConfig {
   /// Optional host-side Wyoming endpoint.
   hostPublishing: HostPublishing? = new HostPublishing {}
 
-  /// External Docker networks used by the service.
-  networks: Mapping<String, Compose.Network> = new {}
+  /// Names of external Docker networks used by the service.
+  networkNames: Listing<String> = new {}
 
   /// Container restart policy.
   restartPolicy: String(!isEmpty) = "unless-stopped"
@@ -65,7 +65,11 @@ class HostPublishing {
 
 // ── Compose service ──────────────────────────────────────────────────────────
 
-networks = config.docker.networks
+networks = new Mapping {
+  for (network in config.docker.networkNames) {
+    [network] = new Compose.Network { `external` = true }
+  }
+}
 
 services = new Mapping {
   [config.docker.name] = new Compose.Service {
@@ -85,7 +89,7 @@ services = new Mapping {
         target = "/data"
       }
     }
-    networks = new Listing { for (network in config.docker.networks.keys) { network } }
+    networks = config.docker.networkNames
   }
 }
 
