@@ -71,6 +71,9 @@ services = new Mapping {
   }
 }
 
+// Piper imports Compose for its typed service model, so Compose's output block
+// is not inherited. This output block renders Piper's services and networks;
+// the renderer itself remains the shared implementation from pkl-docker.
 output {
   value = new Dynamic {
     services = module.services
