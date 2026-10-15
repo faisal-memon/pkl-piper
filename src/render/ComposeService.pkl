@@ -15,6 +15,7 @@ class Renderer {
     restart = composeConfig.restartPolicy
     ports = if (composeConfig.hostPublishing != null) new Listing {
       new Compose.Port {
+        host_ip = composeConfig.hostPublishing.hostIp
         published = composeConfig.hostPublishing.port
         target = piperConfig.port
       }
