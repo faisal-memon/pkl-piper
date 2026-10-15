@@ -10,7 +10,8 @@ class Server {
   name: String(!isEmpty) = "piper"
 
   /// Typed Piper runtime settings.
-  piper: Piper = new Piper {}
+  /// Piper application settings, independent of Docker.
+  piper: Piper.PiperConfig = new Piper.PiperConfig {}
 
   /// Docker image repository.
   image: String(!isEmpty) = "rhasspy/wyoming-piper"
