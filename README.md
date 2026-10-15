@@ -12,10 +12,14 @@ amends "@piper/src/Piper.pkl"
 import "@docker/src/Compose.pkl"
 
 config {
-  voice = "en_US-lessac-medium"
-  port = 10200
-  hostDataDirectory = "/var/lib/piper"
-  networkNames = new Listing { "ai_net" }
+  piper {
+    voice = "en_US-lessac-medium"
+    port = 10200
+  }
+  docker {
+    hostDataDirectory = "/var/lib/piper"
+    networkNames = new Listing { "ai_net" }
+  }
 }
 
 networks = new Mapping {

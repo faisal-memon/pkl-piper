@@ -13,16 +13,28 @@ networks: Mapping<String, Compose.Network> = new {}
 
 // ── Piper configuration types ───────────────────────────────────────────────
 
-/// Piper application and Compose settings.
+/// Combined Piper application and Docker settings.
 class Config {
-  /// Compose service name.
-  name: String(!isEmpty) = "piper"
+  /// Piper application settings.
+  piper: PiperConfig = new PiperConfig {}
 
+  /// Docker deployment settings.
+  docker: DockerConfig = new DockerConfig {}
+}
+
+/// Piper application settings.
+class PiperConfig {
   /// Piper voice identifier.
   voice: String(matches(Regex("[A-Za-z0-9._-]+"))) = "en_US-lessac-medium"
 
   /// Wyoming protocol port served by Piper.
   port: Int(isBetween(1, 65535)) = 10200
+}
+
+/// Docker deployment settings.
+class DockerConfig {
+  /// Compose service name.
+  name: String(!isEmpty) = "piper"
 
   /// Docker image repository.
   image: String(!isEmpty) = "rhasspy/wyoming-piper"
@@ -57,24 +69,24 @@ class HostPublishing {
 // ── Compose service ──────────────────────────────────────────────────────────
 
 services = new Mapping {
-  [config.name] = new Compose.Service {
-    image = config.imageReference
-    command = new Listing { "--voice"; config.voice }
-    restart = config.restartPolicy
-    ports = if (config.hostPublishing != null) new Listing {
+  [config.docker.name] = new Compose.Service {
+    image = config.docker.imageReference
+    command = new Listing { "--voice"; config.piper.voice }
+    restart = config.docker.restartPolicy
+    ports = if (config.docker.hostPublishing != null) new Listing {
       new Compose.Port {
-        host_ip = config.hostPublishing.hostIp
-        published = config.hostPublishing.port
-        target = config.port
+        host_ip = config.docker.hostPublishing.hostIp
+        published = config.docker.hostPublishing.port
+        target = config.piper.port
       }
     } else new {}
     volumes = new Listing {
       new Compose.Volume {
-        source = config.hostDataDirectory
+        source = config.docker.hostDataDirectory
         target = "/data"
       }
     }
-    networks = config.networkNames
+    networks = config.docker.networkNames
   }
 }
 
