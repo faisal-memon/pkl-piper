@@ -3,6 +3,8 @@ module piper.Piper
 
 import "@docker/src/Compose.pkl"
 
+// ── Piper configuration types ───────────────────────────────────────────────
+
 /// Piper application and Compose settings.
 class Config {
   /// Compose service name.
@@ -44,10 +46,14 @@ class HostPublishing {
   port: Int(isBetween(1, 65535)) = 10200
 }
 
+// ── Module configuration ─────────────────────────────────────────────────────
+
 /// Piper configuration supplied by the consumer.
 config: Config = new Config {}
 
 networks: Mapping<String, Compose.Network> = new {}
+
+// ── Compose service ──────────────────────────────────────────────────────────
 
 services = new Mapping {
   [config.name] = new Compose.Service {
@@ -70,6 +76,8 @@ services = new Mapping {
     networks = config.networkNames
   }
 }
+
+// ── YAML output ──────────────────────────────────────────────────────────────
 
 // Piper imports Compose for its typed service model, so Compose's output block
 // is not inherited. This output block renders Piper's services and networks;
