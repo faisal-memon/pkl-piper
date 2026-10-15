@@ -1,5 +1,5 @@
 /// A Piper deployment built on the shared Docker Compose types.
-module piper.DockerCompose
+module piper.Render
 
 import "@docker/src/Compose.pkl"
 import "../Deployment.pkl"

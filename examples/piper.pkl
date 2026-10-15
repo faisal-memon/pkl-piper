@@ -2,20 +2,20 @@
 amends "@docker/src/ComposeRender.pkl"
 
 import "@docker/src/Compose.pkl"
-import "../src/render/DockerCompose.pkl"
+import "../src/render/Render.pkl"
 import "../src/Deployment.pkl"
-import "../src/ComposeConfig.pkl"
 import "../src/Piper.pkl"
+import "../src/DockerCompose.pkl"
 
-local piper = new DockerCompose.Server {
+local piper = new Render.Server {
   deployment = new Deployment.Service {
     config = new Piper.Config {
     voice = "en_US-lessac-medium"
     port = 10200
   }
-    compose = new ComposeConfig.ComposeConfig {
+    compose = new DockerCompose.Config {
     hostDataDirectory = "/var/lib/piper"
-    hostPublishing = new ComposeConfig.HostPublishing {}
+    hostPublishing = new DockerCompose.HostPublishing {}
     networkNames = new Listing { "ai_net" }
     }
   }

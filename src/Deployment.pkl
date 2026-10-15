@@ -3,10 +3,10 @@ module piper.Deployment
 
 import "@docker/src/Compose.pkl"
 import "Piper.pkl"
-import "ComposeConfig.pkl"
+import "DockerCompose.pkl"
 
 /// A Piper deployment with application and renderer-specific configuration.
 class Service {
   config: Piper.Config = new Piper.Config {}
-  compose: ComposeConfig.ComposeConfig = new ComposeConfig.ComposeConfig {}
+  compose: DockerCompose.Config = new DockerCompose.Config {}
 }

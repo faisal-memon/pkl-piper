@@ -1,8 +1,8 @@
 /// Consumer-provided Docker deployment settings for Piper.
-module piper.ComposeConfig
+module piper.DockerCompose
 
 /// Docker Compose deployment settings.
-class ComposeConfig {
+class Config {
   /// Compose service name.
   name: String(!isEmpty) = "piper"
 
