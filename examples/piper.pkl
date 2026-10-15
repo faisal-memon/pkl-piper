@@ -3,16 +3,23 @@ amends "@docker/src/ComposeRender.pkl"
 
 import "@docker/src/Compose.pkl"
 import "../src/DockerCompose.pkl"
+import "../src/Piper.pkl"
 
 local piper = new DockerCompose.Server {
-  hostDataDirectory = "/var/lib/piper"
-  hostPublishing = new DockerCompose.HostPublishing {}
-  networkNames = new Listing { "ai_net" }
+  config = new Piper.PiperConfig {
+    voice = "en_US-lessac-medium"
+    port = 10200
+  }
+  compose = new DockerCompose.ComposeConfig {
+    hostDataDirectory = "/var/lib/piper"
+    hostPublishing = new DockerCompose.HostPublishing {}
+    networkNames = new Listing { "ai_net" }
+  }
 }
 
 config {
   services = new Mapping {
-    [piper.name] = piper.composeService
+    [piper.compose.name] = piper.composeService
   }
   networks = new Mapping {
     ["ai_net"] = new Compose.Network { `external` = true }

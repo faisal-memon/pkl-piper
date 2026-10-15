@@ -4,14 +4,31 @@ module piper.DockerCompose
 import "@docker/src/Compose.pkl"
 import "Piper.pkl"
 
-/// A single Piper Wyoming service.
+/// A Piper deployment with separate application and Compose configuration.
 class Server {
+  /// Piper application settings independent of the deployment renderer.
+  config: Piper.PiperConfig = new Piper.PiperConfig {}
+
+  /// Docker Compose deployment settings.
+  compose: ComposeConfig = new ComposeConfig {}
+
+  /// Convert this Piper deployment to the generic Compose service model.
+  composeService: Compose.Service = new Compose.Service {
+    image = compose.imageReference
+    command = new Listing { "--voice"; config.voice }
+    restart = compose.restartPolicy
+    ports = if (compose.hostPublishing != null) new Listing {
+      "\(compose.hostPublishing.hostIp):\(compose.hostPublishing.port):\(config.port)"
+    } else new {}
+    volumes = new Listing { "\(compose.hostDataDirectory):/data" }
+    networks = compose.networkNames
+  }
+}
+
+/// Docker Compose deployment settings for Piper.
+class ComposeConfig {
   /// Compose service name.
   name: String(!isEmpty) = "piper"
-
-  /// Typed Piper runtime settings.
-  /// Piper application settings, independent of Docker.
-  piper: Piper.PiperConfig = new Piper.PiperConfig {}
 
   /// Docker image repository.
   image: String(!isEmpty) = "rhasspy/wyoming-piper"
@@ -32,18 +49,6 @@ class Server {
   restartPolicy: String(!isEmpty) = "unless-stopped"
 
   hidden imageReference = "\(image):\(imageTag)"
-
-  /// Convert this Piper server to the generic Compose service model.
-  composeService: Compose.Service = new Compose.Service {
-    image = imageReference
-    command = new Listing { "--voice"; piper.voice }
-    restart = restartPolicy
-    ports = if (hostPublishing != null) new Listing {
-      "\(hostPublishing.hostIp):\(hostPublishing.port):\(piper.port)"
-    } else new {}
-    volumes = new Listing { "\(hostDataDirectory):/data" }
-    networks = networkNames
-  }
 }
 
 /// Host-side port publishing settings.
