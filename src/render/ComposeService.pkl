@@ -1,0 +1,22 @@
+/// Convert Piper configuration into the shared Docker Compose service model.
+module piper.ComposeService
+
+import "@docker/src/Compose.pkl"
+import "../Piper.pkl"
+import "../DockerCompose.pkl"
+
+class Adapter {
+  piperConfig: Piper.Config = new Piper.Config {}
+  composeConfig: DockerCompose.Config = new DockerCompose.Config {}
+
+  value: Compose.Service = new Compose.Service {
+    image = composeConfig.imageReference
+    command = new Listing { "--voice"; piperConfig.voice }
+    restart = composeConfig.restartPolicy
+    ports = if (composeConfig.hostPublishing != null) new Listing {
+      "\(composeConfig.hostPublishing.hostIp):\(composeConfig.hostPublishing.port):\(piperConfig.port)"
+    } else new {}
+    volumes = new Listing { "\(composeConfig.hostDataDirectory):/data" }
+    networks = composeConfig.networkNames
+  }
+}
