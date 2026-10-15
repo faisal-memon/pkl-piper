@@ -1,0 +1,18 @@
+/// Public Piper deployment façade.
+module piper.Deployment
+
+import "render/ComposeService.pkl"
+import "Piper.pkl"
+import "DockerCompose.pkl"
+
+/// A Piper deployment with application and Docker configuration.
+class Service {
+  config: Piper.Config = new Piper.Config {}
+  compose: DockerCompose.Config = new DockerCompose.Config {}
+
+  /// Convert the configuration into the shared Docker Compose service model.
+  composeService = new ComposeService.Renderer {
+    piperConfig = config
+    composeConfig = compose
+  }.value
+}

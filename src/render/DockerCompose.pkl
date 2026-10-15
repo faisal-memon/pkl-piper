@@ -1,6 +1,0 @@
-/// Render Piper settings with the shared Docker Compose renderer.
-module piper.DockerComposeRender
-
-amends "@docker/src/ComposeRender.pkl"
-
-config = new ComposeRender {}

@@ -1,8 +1,11 @@
-/// Typed runtime settings for a Piper Wyoming text-to-speech server.
+/// Typed, deployment-agnostic settings for a Piper Wyoming text-to-speech server.
 module piper.Piper
 
-/// Piper voice identifier downloaded into the persistent data directory.
-voice: String(matches(Regex("[A-Za-z0-9._-]+"))) = "en_US-lessac-medium"
+/// Application settings shared by every Piper deployment renderer.
+class Config {
+  /// Piper voice identifier downloaded into the persistent data directory.
+  voice: String(matches(Regex("[A-Za-z0-9._-]+"))) = "en_US-lessac-medium"
 
-/// Wyoming protocol port served by Piper.
-port: Int(isBetween(1, 65535)) = 10200
+  /// Wyoming protocol port served by Piper.
+  port: Int(isBetween(1, 65535)) = 10200
+}
