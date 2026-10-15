@@ -5,7 +5,7 @@ import "@docker/src/Compose.pkl"
 import "../Piper.pkl"
 import "../DockerCompose.pkl"
 
-class Adapter {
+class Renderer {
   piperConfig: Piper.Config = new Piper.Config {}
   composeConfig: DockerCompose.Config = new DockerCompose.Config {}
 

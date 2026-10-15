@@ -11,7 +11,7 @@ class Service {
   compose: DockerCompose.Config = new DockerCompose.Config {}
 
   /// Convert the configuration into the shared Docker Compose service model.
-  composeService = new ComposeService.Adapter {
+  composeService = new ComposeService.Renderer {
     piperConfig = config
     composeConfig = compose
   }.value
