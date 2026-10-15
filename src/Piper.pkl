@@ -3,6 +3,14 @@ module piper.Piper
 
 import "@docker/src/Compose.pkl"
 
+// ── Module configuration ─────────────────────────────────────────────────────
+
+/// Piper configuration supplied by the consumer.
+config: Config = new Config {}
+
+/// External Docker networks used by the service.
+networks: Mapping<String, Compose.Network> = new {}
+
 // ── Piper configuration types ───────────────────────────────────────────────
 
 /// Piper application and Compose settings.
@@ -45,13 +53,6 @@ class HostPublishing {
   /// Host port for the Wyoming endpoint.
   port: Int(isBetween(1, 65535)) = 10200
 }
-
-// ── Module configuration ─────────────────────────────────────────────────────
-
-/// Piper configuration supplied by the consumer.
-config: Config = new Config {}
-
-networks: Mapping<String, Compose.Network> = new {}
 
 // ── Compose service ──────────────────────────────────────────────────────────
 
