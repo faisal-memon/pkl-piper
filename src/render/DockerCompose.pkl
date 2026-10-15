@@ -2,16 +2,15 @@
 module piper.DockerCompose
 
 import "@docker/src/Compose.pkl"
-import "../Piper.pkl"
-import "../ComposeConfig.pkl"
+import "../Deployment.pkl"
 
 /// A Piper deployment with separate application and Compose configuration.
 class Server {
-  /// Piper application settings independent of the deployment renderer.
-  config: Piper.PiperConfig = new Piper.PiperConfig {}
+  /// Public Piper deployment configuration.
+  deployment: Deployment.Piper = new Deployment.Piper {}
 
-  /// Docker Compose deployment settings.
-  compose: ComposeConfig.ComposeConfig = new ComposeConfig.ComposeConfig {}
+  hidden config = deployment.config
+  hidden compose = deployment.compose
 
   /// Convert this Piper deployment to the generic Compose service model.
   composeService: Compose.Service = new Compose.Service {

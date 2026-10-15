@@ -1,0 +1,12 @@
+/// Public Piper deployment façade.
+module piper.Deployment
+
+import "@docker/src/Compose.pkl"
+import "PiperConfig.pkl"
+import "ComposeConfig.pkl"
+
+/// A Piper deployment with application and renderer-specific configuration.
+class Piper {
+  config: PiperConfig.PiperConfig = new PiperConfig.PiperConfig {}
+  compose: ComposeConfig.ComposeConfig = new ComposeConfig.ComposeConfig {}
+}

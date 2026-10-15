@@ -1,5 +1,5 @@
 /// Typed, deployment-agnostic settings for a Piper Wyoming text-to-speech server.
-module piper.Piper
+module piper.PiperConfig
 
 /// Application settings shared by every Piper deployment renderer.
 class PiperConfig {
