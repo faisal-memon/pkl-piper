@@ -2,7 +2,7 @@
 amends "@docker/src/ComposeRender.pkl"
 
 import "@docker/src/Compose.pkl"
-import "../src/DockerCompose.pkl"
+import "../src/render/DockerCompose.pkl"
 import "../src/Piper.pkl"
 
 local piper = new DockerCompose.Server {
