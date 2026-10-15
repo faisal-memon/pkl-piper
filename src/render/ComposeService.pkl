@@ -14,9 +14,17 @@ class Renderer {
     command = new Listing { "--voice"; piperConfig.voice }
     restart = composeConfig.restartPolicy
     ports = if (composeConfig.hostPublishing != null) new Listing {
-      "\(composeConfig.hostPublishing.hostIp):\(composeConfig.hostPublishing.port):\(piperConfig.port)"
+      new Compose.Port {
+        published = composeConfig.hostPublishing.port
+        target = piperConfig.port
+      }
     } else new {}
-    volumes = new Listing { "\(composeConfig.hostDataDirectory):/data" }
+    volumes = new Listing {
+      new Compose.Volume {
+        source = composeConfig.hostDataDirectory
+        target = "/data"
+      }
+    }
     networks = composeConfig.networkNames
   }
 }

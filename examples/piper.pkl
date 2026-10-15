@@ -1,5 +1,5 @@
 /// Piper Wyoming service suitable for a local voice-assistant endpoint.
-amends "@docker/src/ComposeRender.pkl"
+amends "@docker/src/Compose.pkl"
 
 import "@docker/src/Compose.pkl"
 import "../src/Deployment.pkl"
@@ -18,11 +18,9 @@ local piper = new Deployment.Service {
   }
 }
 
-config {
-  services = new Mapping {
-    [piper.compose.name] = piper.composeService
-  }
-  networks = new Mapping {
-    ["ai_net"] = new Compose.Network { `external` = true }
-  }
+services = new Mapping {
+  [piper.compose.name] = piper.composeService
+}
+networks = new Mapping {
+  ["ai_net"] = new Compose.Network { `external` = true }
 }
