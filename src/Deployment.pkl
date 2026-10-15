@@ -5,8 +5,20 @@ import "@docker/src/Compose.pkl"
 import "Piper.pkl"
 import "DockerCompose.pkl"
 
-/// A Piper deployment with application and renderer-specific configuration.
+/// A Piper deployment with application and Docker configuration.
 class Service {
   config: Piper.Config = new Piper.Config {}
   compose: DockerCompose.Config = new DockerCompose.Config {}
+
+  /// Convert the configuration into the shared Docker Compose service model.
+  composeService: Compose.Service = new Compose.Service {
+    image = compose.imageReference
+    command = new Listing { "--voice"; config.voice }
+    restart = compose.restartPolicy
+    ports = if (compose.hostPublishing != null) new Listing {
+      "\(compose.hostPublishing.hostIp):\(compose.hostPublishing.port):\(config.port)"
+    } else new {}
+    volumes = new Listing { "\(compose.hostDataDirectory):/data" }
+    networks = compose.networkNames
+  }
 }
