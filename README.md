@@ -17,7 +17,7 @@ config {
     port = 10200
   }
   docker {
-    hostDataDirectory = "/var/lib/piper"
+    hostDataDirectory = "./data/piper"
     networks = new Mapping {
       ["ai_net"] = new Compose.Network { `external` = true }
     }
