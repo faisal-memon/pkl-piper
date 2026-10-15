@@ -18,12 +18,10 @@ config {
   }
   docker {
     hostDataDirectory = "/var/lib/piper"
-    networkNames = new Listing { "ai_net" }
+    networks = new Mapping {
+      ["ai_net"] = new Compose.Network { `external` = true }
+    }
   }
-}
-
-networks = new Mapping {
-  ["ai_net"] = new Compose.Network { `external` = true }
 }
 ```
 

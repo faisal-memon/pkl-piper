@@ -8,9 +8,6 @@ import "@docker/src/Compose.pkl"
 /// Piper configuration supplied by the consumer.
 config: Config = new Config {}
 
-/// External Docker networks used by the service.
-networks: Mapping<String, Compose.Network> = new {}
-
 // ── Piper configuration types ───────────────────────────────────────────────
 
 /// Combined Piper application and Docker settings.
@@ -49,8 +46,8 @@ class DockerConfig {
   /// Optional host-side Wyoming endpoint.
   hostPublishing: HostPublishing? = new HostPublishing {}
 
-  /// Optional external Docker networks for internal callers.
-  networkNames: Listing<String> = new {}
+  /// External Docker networks used by the service.
+  networks: Mapping<String, Compose.Network> = new {}
 
   /// Container restart policy.
   restartPolicy: String(!isEmpty) = "unless-stopped"
@@ -67,6 +64,8 @@ class HostPublishing {
 }
 
 // ── Compose service ──────────────────────────────────────────────────────────
+
+networks = config.docker.networks
 
 services = new Mapping {
   [config.docker.name] = new Compose.Service {
@@ -86,7 +85,7 @@ services = new Mapping {
         target = "/data"
       }
     }
-    networks = config.docker.networkNames
+    networks = new Listing { for (network in config.docker.networks.keys) { network } }
   }
 }
 
