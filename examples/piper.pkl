@@ -5,11 +5,11 @@ import "@docker/src/Compose.pkl"
 import "../src/render/DockerCompose.pkl"
 import "../src/Deployment.pkl"
 import "../src/ComposeConfig.pkl"
-import "../src/PiperConfig.pkl"
+import "../src/Piper.pkl"
 
 local piper = new DockerCompose.Server {
-  deployment = new Deployment.Piper {
-    config = new PiperConfig.PiperConfig {
+  deployment = new Deployment.Service {
+    config = new Piper.Config {
     voice = "en_US-lessac-medium"
     port = 10200
   }

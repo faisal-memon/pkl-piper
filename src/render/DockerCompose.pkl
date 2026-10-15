@@ -7,7 +7,7 @@ import "../Deployment.pkl"
 /// A Piper deployment with separate application and Compose configuration.
 class Server {
   /// Public Piper deployment configuration.
-  deployment: Deployment.Piper = new Deployment.Piper {}
+  deployment: Deployment.Service = new Deployment.Service {}
 
   hidden config = deployment.config
   hidden compose = deployment.compose

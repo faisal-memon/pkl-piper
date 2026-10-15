@@ -1,8 +1,8 @@
 /// Typed, deployment-agnostic settings for a Piper Wyoming text-to-speech server.
-module piper.PiperConfig
+module piper.Piper
 
 /// Application settings shared by every Piper deployment renderer.
-class PiperConfig {
+class Config {
   /// Piper voice identifier downloaded into the persistent data directory.
   voice: String(matches(Regex("[A-Za-z0-9._-]+"))) = "en_US-lessac-medium"
 
