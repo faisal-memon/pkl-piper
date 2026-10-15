@@ -41,7 +41,7 @@ class DockerConfig {
   imageTag: String(!isEmpty) = "2.5.2"
 
   /// Persistent host directory for downloaded voice files.
-  hostDataDirectory: String(startsWith("/"), !contains("\n"), !contains("$")) = "/var/lib/piper"
+  hostDataDirectory: String(!contains("\n"), !contains("$")) = "./data/piper"
 
   /// Optional host-side Wyoming endpoint.
   hostPublishing: HostPublishing? = new HostPublishing {}
