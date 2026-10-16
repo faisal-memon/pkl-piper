@@ -1,7 +1,6 @@
 /// Piper Wyoming service suitable for a local voice-assistant endpoint.
 amends "../src/Piper.pkl"
 
-import "@docker/src/Compose.pkl"
 
 config {
   piper {
@@ -11,7 +10,7 @@ config {
   docker {
     hostDataDirectory = "./data/piper"
     networks = new Mapping {
-      ["ai_net"] = new Compose.Network { `external` = true }
+      ["ai_net"] = new NetworkConfig { `external` = true }
     }
   }
 }
