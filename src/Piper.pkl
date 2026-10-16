@@ -10,6 +10,12 @@ config: Config = new Config {}
 
 // ── Piper configuration types ───────────────────────────────────────────────
 
+/// Consumer-facing network settings.
+class NetworkConfig {
+  /// Whether the network already exists outside this Compose project.
+  `external`: Boolean = false
+}
+
 /// Combined Piper application and Docker settings.
 class Config {
   /// Piper application settings.
@@ -47,7 +53,7 @@ class DockerConfig {
   hostPublishing: HostPublishing? = new HostPublishing {}
 
   /// Docker networks used by the service and their settings.
-  networks: Mapping<String, Compose.Network> = new {}
+  networks: Mapping<String, NetworkConfig> = new {}
 
   /// Container restart policy.
   restartPolicy: String(!isEmpty) = "unless-stopped"
@@ -65,7 +71,11 @@ class HostPublishing {
 
 // ── Compose service ──────────────────────────────────────────────────────────
 
-networks = config.docker.networks
+networks = new Mapping {
+  for (name, network in config.docker.networks) {
+    [name] = new Compose.Network { `external` = network.`external` }
+  }
+}
 
 services = new Mapping {
   [config.docker.name] = new Compose.Service {
