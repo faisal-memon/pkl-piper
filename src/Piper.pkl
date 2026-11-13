@@ -44,7 +44,7 @@ class DockerConfig {
 
   /// Versioned Piper image tag.
   // renovate: datasource=docker depName=rhasspy/wyoming-piper
-  imageTag: String(!isEmpty) = "2.5.2"
+  imageTag: String(!isEmpty) = "2.5.3"
 
   /// Persistent host directory for downloaded voice files.
   hostDataDirectory: String(!contains("\n"), !contains("$")) = "./data/piper"
